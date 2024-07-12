@@ -1,6 +1,8 @@
+import { ChatProviderValue } from './chat_provider_type.js'
+
 export type ZeytechChatConfig = {
-    provider: 'chat-gpt',
-    model: string,
-    username: string,
-    password: string,
+  provider: ChatProviderValue
+  model: string
+  username: string
+  password: string
 }

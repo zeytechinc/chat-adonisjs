@@ -2,6 +2,7 @@
   "name": "@zeytech/chat-adonisjs",
   "description": "Zeytech AdonisJS plugin to help integrate with Chat Bots",
   "version": "0.0.0",
+  "main": "build/index.js",
   "engines": {
     "node": ">=20.6.0"
   },
@@ -15,7 +16,8 @@
   ],
   "exports": {
     ".": "./build/index.js",
-    "./types": "./build/src/types.js"
+    "./types": "./build/src/types.js",
+    "./zeytech_chat_provider": "./build/providers/zeytech_chat_provider.js"
   },
   "scripts": {
     "clean": "del-cli build",
@@ -53,7 +55,7 @@
     "np": "^10.0.6",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "5.4.5"
   },
   "peerDependencies": {
     "@adonisjs/core": "^6.2.0"

@@ -12,8 +12,43 @@
 |
 */
 
-import ConfigureCommand from '@adonisjs/core/commands/configure'
+import type Configure from '@adonisjs/core/commands/configure'
+import { stubsRoot } from './stubs/main.js'
 
-export async function configure(_command: ConfigureCommand) {
-    
+/**
+ * Configures the package
+ */
+export async function configure(command: Configure) {
+  const codemods = await command.createCodemods()
+
+  /**
+   * Publish config file
+   */
+  await codemods.makeUsingStub(stubsRoot, 'config/zeytech_chat.stub', {})
+
+  /**
+   * Define environment variables
+   */
+  await codemods.defineEnvVariables({
+    ZEYTECH_CHAT_USERNAME: '',
+    ZEYTECH_CHAT_PASSWORD: '',
+  })
+
+  /**
+   * Define environment variables validations
+   */
+  await codemods.defineEnvValidations({
+    variables: {
+      ZEYTECH_CHAT_USERNAME: `Env.schema.string()`,
+      ZEYTECH_CHAT_PASSWORD: `Env.schema.string()`,
+    },
+    leadingComment: 'Variables for configuring Zeytech Chat package',
+  })
+
+  /**
+   * Register provider
+   */
+  await codemods.updateRcFile((rcFile) => {
+    rcFile.addProvider('@zeytech/chat-adonisjs/zeytech_chat_provider')
+  })
 }
