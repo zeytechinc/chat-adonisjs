@@ -1,0 +1,21 @@
+{{{
+  exports({ to: app.configPath('zeytech_chat.ts') })
+}}}
+import env from '#start/env'
+import { defineConfig } from '@zeytech/chat-adonisjs'
+
+const chatConfig = defineConfig({
+  provider: 'chat-gpt',
+
+  /**
+   * Username or Project ID for the provider
+   */
+  username: env.get('ZEYTECH_CHAT_USERNAME'),
+
+  /**
+   * Password or API Key for the provider
+   */
+  password: env.get('ZEYTECH_CHAT_PASSWORD'),
+})
+
+export default chatConfig
