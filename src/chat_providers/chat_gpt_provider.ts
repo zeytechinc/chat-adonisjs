@@ -1,7 +1,7 @@
 import OpenAI from 'openai'
-import { Message } from './types/message.js'
-import { ZeytechChatConfig } from './types/zeytech_chat_config.js'
-import { ChatProvider } from './chat_provider.js'
+import { Message } from '../types/message.js'
+import { ZeytechChatConfig } from '../types/zeytech_chat_config.js'
+import { ChatProvider } from '../types/chat_provider.js'
 
 export class ChatGptProvider implements ChatProvider {
   #openai: OpenAI
@@ -16,20 +16,13 @@ export class ChatGptProvider implements ChatProvider {
     this.#openai = openai
   }
 
-  async prompt(message: string) {
-    const result = await this.#openai.chat.completions.create({
-      messages: [
-        { role: 'system', content: 'You are a helpful assistant.' },
-        { role: 'user', content: message },
-      ],
-      model: this.#model,
-    })
-    return result.choices[0].message as Message
+  async prompt(message: string, system?: string): Promise<Message> {
+    return await this.promptThread(message, [], system)
   }
 
-  async promptThread(message: string, thread: Message[]) {
+  async promptThread(message: string, thread: Message[], system?: string): Promise<Message> {
     const newThread = [
-      { role: 'system', content: 'You are a helpful assistant.' },
+      ...(system ? [{ role: 'system', content: system }] : []),
       ...thread,
       { role: 'user', content: message },
     ]

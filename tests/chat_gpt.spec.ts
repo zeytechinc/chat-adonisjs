@@ -1,28 +1,5 @@
-import { test } from '@japa/runner'
-import { ChatGptProvider } from '../src/chat_gpt_provider.js'
-import { TEST_CONFIG } from '../test_config.js'
+import { ChatGptProvider } from '../src/chat_providers/chat_gpt_provider.js'
+import { TEST_CONFIG_GPT } from '../test_config.js'
+import { testProvider } from './chat_test_suite.js'
 
-test.group('ChatGPT', () => {
-  test('prompt', async ({ assert }) => {
-    const provider = new ChatGptProvider(TEST_CONFIG)
-    const result = await provider.prompt('When did the Green Bay Packers win the Super Bowl?')
-    assert.isNotNull(result)
-    console.log(JSON.stringify(result))
-  })
-
-  test('prompThread', async ({ assert }) => {
-    const provider = new ChatGptProvider(TEST_CONFIG)
-    const initialResult = await provider.prompt(
-      'When did the Green Bay Packers win the Super Bowl?'
-    )
-    const result = await provider.promptThread(
-      'Who threw the most touchdowns in the most recent one?',
-      [
-        { role: 'user', content: 'When did the Green Bay Packers win the Super Bowl?' },
-        initialResult,
-      ]
-    )
-    assert.isNotNull(result)
-    console.log(JSON.stringify(result))
-  }).timeout(10000)
-})
+testProvider('ChatGPT', () => new ChatGptProvider(TEST_CONFIG_GPT))

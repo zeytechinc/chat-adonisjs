@@ -27,6 +27,11 @@ export async function configure(command: Configure) {
   await codemods.makeUsingStub(stubsRoot, 'config/zeytech_chat.stub', {})
 
   /**
+   * Public migrations
+   */
+  await codemods.makeUsingStub(stubsRoot, 'migrations/init_chat_histories_table.stub', {})
+
+  /**
    * Define environment variables
    */
   await codemods.defineEnvVariables({
@@ -39,7 +44,7 @@ export async function configure(command: Configure) {
    */
   await codemods.defineEnvValidations({
     variables: {
-      ZEYTECH_CHAT_USERNAME: `Env.schema.string()`,
+      ZEYTECH_CHAT_USERNAME: `Env.schema.string().optional()`,
       ZEYTECH_CHAT_PASSWORD: `Env.schema.string()`,
     },
     leadingComment: 'Variables for configuring Zeytech Chat package',

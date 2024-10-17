@@ -12,12 +12,15 @@
     "build/providers",
     "build/stubs",
     "build/index.d.ts",
-    "build/index.js"
+    "build/index.js",
+    "build/chat_history.d.ts",
+    "build/chat_history.js"
   ],
   "exports": {
     ".": "./build/index.js",
     "./types": "./build/src/types.js",
-    "./zeytech_chat_provider": "./build/providers/zeytech_chat_provider.js"
+    "./zeytech_chat_provider": "./build/providers/zeytech_chat_provider.js",
+    "./chat_history": "./build/src/chat_history.js"
   },
   "scripts": {
     "clean": "del-cli build",
@@ -42,11 +45,13 @@
     "@adonisjs/assembler": "^7.7.0",
     "@adonisjs/core": "^6.12.0",
     "@adonisjs/eslint-config": "^1.3.0",
+    "@adonisjs/lucid": "^21.1.1",
     "@adonisjs/prettier-config": "^1.3.0",
     "@adonisjs/tsconfig": "^1.3.0",
     "@japa/assert": "^3.0.0",
     "@japa/runner": "^3.1.4",
     "@swc/core": "^1.6.3",
+    "@types/luxon": "^3.4.2",
     "@types/node": "^20.14.5",
     "c8": "^10.1.2",
     "copyfiles": "^2.4.1",
@@ -84,6 +89,8 @@
   },
   "prettier": "@adonisjs/prettier-config",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.25.0",
+    "luxon": "^3.4.4",
     "openai": "^4.52.0"
   }
 }
