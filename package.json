@@ -8,6 +8,8 @@
   },
   "type": "module",
   "files": [
+    "build/configure.js",
+    "build/configure.d.ts",
     "build/src",
     "build/providers",
     "build/stubs",
