@@ -44,7 +44,7 @@ export async function configure(command: Configure) {
    */
   await codemods.defineEnvValidations({
     variables: {
-      ZEYTECH_CHAT_USERNAME: `Env.schema.string().optional()`,
+      ZEYTECH_CHAT_USERNAME: `Env.schema.string.optional()`,
       ZEYTECH_CHAT_PASSWORD: `Env.schema.string()`,
     },
     leadingComment: 'Variables for configuring Zeytech Chat package',

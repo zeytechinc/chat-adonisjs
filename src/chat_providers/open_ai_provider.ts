@@ -11,7 +11,7 @@ export class ChatGptProvider implements ChatProvider {
     const openai = new OpenAI({
       apiKey: config.password,
       project: config.username,
-      baseURL: config.openAiBaseUrl
+      baseURL: config.openAiBaseUrl,
     })
     this.#model = config.model || ''
     this.#openai = openai
