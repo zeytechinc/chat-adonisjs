@@ -1,7 +1,7 @@
 {
   "name": "@zeytech/chat-adonisjs",
   "description": "Zeytech AdonisJS plugin to help integrate with Chat Bots",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "build/index.js",
   "engines": {
     "node": ">=20.6.0"
@@ -36,7 +36,8 @@
     "postbuild": "npm run copy:templates",
     "release": "np",
     "version": "npm run build",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "publish:local": "del pkg-local/*.tgz && npm run build && npm pack --pack-destination ./pkg-local"
   },
   "keywords": [],
   "author": "",
