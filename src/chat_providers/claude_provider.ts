@@ -1,6 +1,7 @@
 import { Message } from '../types/message.js'
 import { ZeytechChatConfig } from '../types/zeytech_chat_config.js'
 import { ChatProvider } from '../types/chat_provider.js'
+import { ChatResponse } from '../types/chat_response.js'
 import Anthropic from '@anthropic-ai/sdk'
 import { MessageParam, TextBlock } from '@anthropic-ai/sdk/resources/index.mjs'
 
@@ -40,11 +41,11 @@ export class ClaudeProvider implements ChatProvider {
     return messages.map(this.#transformMessage)
   }
 
-  async prompt(message: string, system?: string): Promise<Message> {
+  async prompt(message: string, system?: string): Promise<ChatResponse> {
     return this.promptThread(message, [], system)
   }
 
-  async promptThread(message: string, thread: Message[], system?: string): Promise<Message> {
+  async promptThread(message: string, thread: Message[], system?: string): Promise<ChatResponse> {
     const result = await this.#provider.messages.create({
       model: this.#model,
       max_tokens: 1000,
@@ -63,6 +64,10 @@ export class ClaudeProvider implements ChatProvider {
       ],
     })
 
-    return this.#transformTextBlock(result.content[0] as TextBlock)
+    return {
+      thread: [...thread, { role: 'user', content: message }, this.#transformTextBlock(result.content[0] as TextBlock)],
+      userMessage: { role: 'user', content: message },
+      response: this.#transformTextBlock(result.content[0] as TextBlock)
+    }
   }
 }

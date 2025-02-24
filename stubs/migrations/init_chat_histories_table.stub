@@ -12,7 +12,6 @@ export default class extends BaseSchema {
       table.timestamp('created_at')
       table.timestamp('updated_at')
       table.jsonb('thread').defaultTo('[]')
-      table.timestamp('completed_at')
     })
   }
 

@@ -16,7 +16,4 @@ export default class ChatHistory extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
-
-  @column.dateTime()
-  declare completedAt: DateTime
 }

@@ -2,6 +2,7 @@ import OpenAI from 'openai'
 import { Message } from '../types/message.js'
 import { ZeytechChatConfig } from '../types/zeytech_chat_config.js'
 import { ChatProvider } from '../types/chat_provider.js'
+import { ChatResponse } from '../types/chat_response.js'
 import {
   ChatCompletionTool,
   ChatCompletionCreateParamsNonStreaming,
@@ -21,7 +22,7 @@ export class OpenAiProvider implements ChatProvider {
     this.#openai = openai
   }
 
-  async prompt(message: string, system?: string, tools?: ChatCompletionTool[]): Promise<Message> {
+  async prompt(message: string, system?: string, tools?: ChatCompletionTool[]): Promise<ChatResponse> {
     return await this.promptThread(message, [], system, tools)
   }
 
@@ -30,7 +31,7 @@ export class OpenAiProvider implements ChatProvider {
     thread: Message[],
     system?: string,
     tools?: ChatCompletionTool[]
-  ): Promise<Message> {
+  ): Promise<ChatResponse> {
     const newThread = [
       ...(system ? [{ role: 'system', content: system }] : []),
       ...thread,
@@ -47,6 +48,10 @@ export class OpenAiProvider implements ChatProvider {
     }
 
     const result = await this.#openai.chat.completions.create(options)
-    return result.choices[0].message as Message
+    return {
+      thread: [...newThread, result.choices[0].message as Message],
+      userMessage: { role: 'user', content: message },
+      response: result.choices[0].message as Message,
+    }
   }
 }
