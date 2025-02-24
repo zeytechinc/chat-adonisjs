@@ -22,7 +22,11 @@ export class OpenAiProvider implements ChatProvider {
     this.#openai = openai
   }
 
-  async prompt(message: string, system?: string, tools?: ChatCompletionTool[]): Promise<ChatResponse> {
+  async prompt(
+    message: string,
+    system?: string,
+    tools?: ChatCompletionTool[]
+  ): Promise<ChatResponse> {
     return await this.promptThread(message, [], system, tools)
   }
 

@@ -65,9 +65,13 @@ export class ClaudeProvider implements ChatProvider {
     })
 
     return {
-      thread: [...thread, { role: 'user', content: message }, this.#transformTextBlock(result.content[0] as TextBlock)],
+      thread: [
+        ...thread,
+        { role: 'user', content: message },
+        this.#transformTextBlock(result.content[0] as TextBlock),
+      ],
       userMessage: { role: 'user', content: message },
-      response: this.#transformTextBlock(result.content[0] as TextBlock)
+      response: this.#transformTextBlock(result.content[0] as TextBlock),
     }
   }
 }

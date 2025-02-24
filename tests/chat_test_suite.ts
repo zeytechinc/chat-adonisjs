@@ -16,7 +16,7 @@ export function testProvider(groupName: string, getProviderFunc: () => ChatProvi
         `You are a rude teenager but still answers correctly. All requests include the word 'bruh'`
       )
       assert.isNotNull(result)
-      assert.include(result.content.toLowerCase(), `bruh`)
+      assert.include(result.response.content.toLowerCase(), `bruh`)
     })
 
     test('prompThread', async ({ assert }) => {
@@ -28,7 +28,7 @@ export function testProvider(groupName: string, getProviderFunc: () => ChatProvi
         'Who threw the most touchdowns in the most recent one?',
         [
           { role: 'user', content: 'When did the Green Bay Packers win the Super Bowl?' },
-          initialResult,
+          initialResult.response,
         ]
       )
       assert.isNotNull(result)
