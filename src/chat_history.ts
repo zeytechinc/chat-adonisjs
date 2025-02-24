@@ -6,9 +6,6 @@ export default class ChatHistory extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
-  declare referenceKey: string
-
   @column({
     prepare: (value) => JSON.stringify(value),
   })
@@ -19,4 +16,7 @@ export default class ChatHistory extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @column.dateTime()
+  declare completedAt: DateTime
 }
