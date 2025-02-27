@@ -1,7 +1,7 @@
 import { Message } from '../types/message.js'
 import { ZeytechChatConfig } from '../types/zeytech_chat_config.js'
 import { ChatProvider } from '../types/chat_provider.js'
-import { ChatResponse } from '../types/chat_response.js'
+import { ChatResponse } from '../types/index.js'
 import Anthropic from '@anthropic-ai/sdk'
 import { MessageParam, TextBlock } from '@anthropic-ai/sdk/resources/index.mjs'
 

@@ -2,11 +2,12 @@ import OpenAI from 'openai'
 import { Message } from '../types/message.js'
 import { ZeytechChatConfig } from '../types/zeytech_chat_config.js'
 import { ChatProvider } from '../types/chat_provider.js'
-import { ChatResponse } from '../types/chat_response.js'
+import { ChatResponse } from '../types/index.js'
 import {
   ChatCompletionTool,
   ChatCompletionCreateParamsNonStreaming,
-} from 'openai/resources/chat/completions/completions'
+} from 'openai/resources/chat/completions'
+import { ResponseFormatText } from 'openai/resources'
 
 export class ChatGptProvider implements ChatProvider {
   #openai: OpenAI
@@ -24,16 +25,18 @@ export class ChatGptProvider implements ChatProvider {
   async prompt(
     message: string,
     system?: string,
-    tools?: ChatCompletionTool[]
+    tools?: ChatCompletionTool[],
+    responseFormat?: 'text' | 'json_schema' | 'json_object'
   ): Promise<ChatResponse> {
-    return await this.promptThread(message, [], system, tools)
+    return await this.promptThread(message, [], system, tools, responseFormat)
   }
 
   async promptThread(
     message: string,
     thread: Message[],
     system?: string,
-    tools?: ChatCompletionTool[]
+    tools?: ChatCompletionTool[],
+    responseFormat?: 'text' | 'json_schema' | 'json_object'
   ): Promise<ChatResponse> {
     const newThread = [
       ...(system ? [{ role: 'system', content: system }] : []),
@@ -48,6 +51,10 @@ export class ChatGptProvider implements ChatProvider {
 
     if (tools?.length) {
       options.tools = tools
+    }
+
+    if (responseFormat) {
+      options.response_format = { type: responseFormat } as ResponseFormatText
     }
 
     const result = await this.#openai.chat.completions.create(options)

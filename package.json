@@ -20,7 +20,7 @@
   ],
   "exports": {
     ".": "./build/index.js",
-    "./types": "./build/src/types.js",
+    "./types": "./build/src/types/index.js",
     "./zeytech_chat_provider": "./build/providers/zeytech_chat_provider.js",
     "./chat_history": "./build/src/chat_history.js"
   },
