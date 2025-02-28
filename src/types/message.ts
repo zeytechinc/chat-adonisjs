@@ -9,4 +9,5 @@ export type Message = {
   tool_calls?: ToolCall[]
   function_response?: any | any[]
   has_arguments?: boolean
+  category?: string
 }
