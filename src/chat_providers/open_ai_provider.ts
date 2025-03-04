@@ -7,7 +7,12 @@ import {
   ChatCompletionTool,
   ChatCompletionCreateParamsNonStreaming,
 } from 'openai/resources/chat/completions'
-import { ResponseFormatText } from 'openai/resources'
+import {
+  ResponseFormatJSONObject,
+  ResponseFormatJSONSchema,
+  ResponseFormatText,
+} from 'openai/resources'
+import { AutoParseableResponseFormat } from 'openai/lib/parser.js'
 
 export class OpenAiProvider implements ChatProvider {
   #openai: OpenAI
@@ -27,9 +32,10 @@ export class OpenAiProvider implements ChatProvider {
     message: string,
     system?: string,
     tools?: ChatCompletionTool[],
-    responseFormat?: 'text' | 'json_schema' | 'json_object'
+    responseFormat?: 'text' | 'json_schema' | 'json_object' | AutoParseableResponseFormat<any>,
+    jsonSchema?: { name: string; schema: any }
   ): Promise<ChatResponse> {
-    return await this.promptThread(message, [], system, tools, responseFormat)
+    return await this.promptThread(message, [], system, tools, responseFormat, jsonSchema)
   }
 
   async promptThread(
@@ -37,7 +43,8 @@ export class OpenAiProvider implements ChatProvider {
     thread: Message[],
     system?: string,
     tools?: ChatCompletionTool[],
-    responseFormat?: 'text' | 'json_schema' | 'json_object'
+    responseFormat?: 'text' | 'json_schema' | 'json_object' | AutoParseableResponseFormat<any>,
+    jsonSchema?: { name: string; schema: any }
   ): Promise<ChatResponse> {
     const newThread = [
       ...(system ? [{ role: 'system', content: system }] : []),
@@ -55,7 +62,24 @@ export class OpenAiProvider implements ChatProvider {
     }
 
     if (responseFormat) {
-      options.response_format = { type: responseFormat } as ResponseFormatText
+      switch (responseFormat) {
+        case 'text':
+          options.response_format = { type: responseFormat } as ResponseFormatText
+          break
+        case 'json_schema':
+          if (jsonSchema) {
+            options.response_format = {
+              type: responseFormat,
+              json_schema: jsonSchema,
+            } as ResponseFormatJSONSchema
+          }
+          break
+        case 'json_object':
+          options.response_format = { type: responseFormat } as ResponseFormatJSONObject
+          break
+        default:
+          options.response_format = responseFormat
+      }
     }
 
     const result = await this.#openai.chat.completions.create(options)

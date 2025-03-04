@@ -31,12 +31,19 @@ export function defineConfig(
   }
 
   /**
-   * Make sure a username is defined
+   * Make sure a password is defined
    */
   if (!config.password) {
     throw new InvalidArgumentsException(
       'Missing "password" property inside the Zeytech Chat config'
     )
+  }
+
+  /**
+   * Make sure a model is defined
+   */
+  if (!config.model) {
+    throw new InvalidArgumentsException('Missing "model" property inside the Zeytech Chat config')
   }
 
   return configProvider.create(async (_) => {

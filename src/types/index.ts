@@ -1,3 +1,5 @@
 export type { Message, ToolCall } from './message.js'
 export type { ChatResponse } from './chat_response.js'
 export type { ChatCompletionTool } from 'openai/resources/chat/completions'
+export { zodResponseFormat } from 'openai/helpers/zod'
+export { z } from 'zod'

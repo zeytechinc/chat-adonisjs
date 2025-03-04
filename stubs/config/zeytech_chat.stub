@@ -16,6 +16,11 @@ const chatConfig = defineConfig({
    * Password or API Key for the provider
    */
   password: env.get('ZEYTECH_CHAT_PASSWORD'),
+
+  /**
+   * Model used for chat completions api
+   */
+  model: env.get('ZEYTECH_CHAT_MODEL')
 })
 
 export default chatConfig
