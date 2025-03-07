@@ -1,14 +1,15 @@
 {
   "name": "@zeytech/chat-adonisjs",
   "description": "Zeytech AdonisJS plugin to help integrate with Chat Bots",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "build/index.js",
   "engines": {
     "node": ">=20.6.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zeytechinc/chat-adonisjs" },
+    "url": "https://github.com/zeytechinc/chat-adonisjs"
+  },
   "type": "module",
   "files": [
     "build/configure.js",
@@ -44,7 +45,14 @@
     "prepublishOnly": "npm run build",
     "publish:local": "del pkg-local/*.tgz && npm run build && npm pack --pack-destination ./pkg-local"
   },
-  "keywords": ["adonisjs", "ai", "chatbot", "zeytech", "openai", "anthropic"],
+  "keywords": [
+    "adonisjs",
+    "ai",
+    "chatbot",
+    "zeytech",
+    "openai",
+    "anthropic"
+  ],
   "author": "Zeytech Inc (https://zeytech.com)",
   "license": "MIT",
   "contributors": [
